@@ -21,7 +21,7 @@ ORANGE: tuple = (255, 165, 0)
 
 # Board game default setting
 NUMBER_CELL: int = 10  # default 10 row and 10 col
-SPACING_CELL: int = 2
+SPACING_CELL: int = 1
 CELL_SIZE: int = 60
 MARGIN: object = {
     "TOP": 0,
@@ -30,10 +30,14 @@ MARGIN: object = {
 
 # IMAGE
 CELL_IMAGE = r"Assets/Images/floor.png"
+CELL_GOLD_IMAGE = r"Assets/Images/floor_gold.png"
 GOLD_IMAGE = r"Assets/Images/gold.png"
 AGENT_IMAGE = [r"Assets/Images/player_facing_to_right.png", r"Assets/Images/player_facing_to_left.png",
                r"Assets/Images/player_facing_to_up.png", r"Assets/Images/player_facing_to_down.png"]
-
+PIT_IMAGE = r"Assets/Images/hole.png"
+WUMPUS_IMAGE = r"Assets/Images/wumpus.png"
+BREEZE_IMAGE = r"Assets/Images/breeze.png"
+STENCH_IMAGE = r"Assets/Images/smell.png"
 # --- End Image
 
 # Entity

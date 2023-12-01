@@ -2,9 +2,13 @@ import pygame
 
 import utils
 from Entity.Agent import Agent
+from Entity.Breeze import Breeze
 from Entity.Cell import Cell
 from Entity.Gold import Gold
-from constants import SPACING_CELL, CELL_SIZE, NUMBER_CELL, MARGIN, GOLD, AGENT
+from Entity.Pit import Pit
+from Entity.Stench import Stench
+from Entity.Wumpus import Wumpus
+from constants import *
 
 
 class Board(object):
@@ -22,7 +26,11 @@ class Board(object):
         # other position entity
         self.Cells = []
         self.Golds = []
+        self.Pits = []
+        self.Wumpus = []
         self.Agent = None
+        self.Breezes = []
+        self.Stenches = []
 
         self.createBoardGame(filename)
 
@@ -35,15 +43,32 @@ class Board(object):
             for col in range(N):
                 cell = self.map[row][col]
                 # create floor game
-                self.Cells.append(Cell(row, col))
+                self.Cells.append(Cell(row, col, 1) if GOLD in cell else Cell(row, col))
                 if GOLD in cell:
                     self.Golds.append(Gold(row, col))
                 if AGENT in cell and self.Agent is None:
                     self.Agent = Agent(row, col)
+                if PIT in cell:
+                    self.Pits.append(Pit(row, col))
+                if WUMPUS in cell:
+                    self.Wumpus.append(Wumpus(row, col))
+                if BREEZE in cell:
+                    self.Breezes.append(Breeze(row, col))
+                if STENCH in cell:
+                    self.Stenches.append(Stench(row, col))
 
     def draw(self, screen: pygame):
         for cell in self.Cells:
             cell.draw(screen)
+        for stench in self.Stenches:
+            stench.draw(screen)
+        for breeze in self.Breezes:
+            breeze.draw(screen)
         for gold in self.Golds:
             gold.draw(screen)
+        for pit in self.Pits:
+            pit.draw(screen)
+        for wum in self.Wumpus:
+            wum.draw(screen)
+
         self.Agent.draw(screen)
