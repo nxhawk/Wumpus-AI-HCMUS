@@ -8,14 +8,14 @@ class Utils:
         pass
 
     @staticmethod
-    def load_image_alpha(path:str, rotate:int=0):
+    def load_image_alpha(path: str, rotate: int = 0):
         image = pygame.image.load(path).convert_alpha()
         image = pygame.transform.scale(image, (CELL_SIZE, CELL_SIZE))
         image = pygame.transform.rotate(image, rotate)
         return image
 
     @staticmethod
-    def load_image(path: str, rotate:int=0):
+    def load_image(path: str, rotate: int = 0):
         image = pygame.image.load(path).convert()
         image = pygame.transform.scale(image, (CELL_SIZE, CELL_SIZE))
         image = pygame.transform.rotate(image, rotate)
@@ -38,3 +38,7 @@ class Utils:
         MARGIN['TOP'] = (HEIGHT - N * cell_size - spacing_cell * (N + 1)) // 2
         MARGIN['LEFT'] = MARGIN['TOP']
         return N, _map
+
+    @staticmethod
+    def isValid(row, col, N):
+        return 0 <= row < N and 0 <= col < N

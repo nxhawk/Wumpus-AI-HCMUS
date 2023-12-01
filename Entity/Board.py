@@ -47,7 +47,7 @@ class Board(object):
                 if GOLD in cell:
                     self.Golds.append(Gold(row, col))
                 if AGENT in cell and self.Agent is None:
-                    self.Agent = Agent(row, col)
+                    self.Agent = Agent(row, col, N)
                 if PIT in cell:
                     self.Pits.append(Pit(row, col))
                 if WUMPUS in cell:
@@ -72,3 +72,12 @@ class Board(object):
             wum.draw(screen)
 
         self.Agent.draw(screen)
+
+    def isDead(self):
+        for wum in self.Wumpus:
+            if wum.getRC() == self.Agent.getRC():
+                return True
+        return False
+
+    def move(self):
+        pass

@@ -15,3 +15,6 @@ class Entity(object):
 
     def draw(self, screen: pygame):
         screen.blit(self.image, self.rect)
+
+    def getRC(self):
+        return [self.row, self.col]

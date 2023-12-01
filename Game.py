@@ -1,7 +1,7 @@
 import pygame
 
 from Entity.Board import Board
-from constants import NAME_WINDOW, FPS, WIDTH, HEIGHT, ICON_NAME, BLACK, BLUE
+from constants import NAME_WINDOW, FPS, WIDTH, HEIGHT, ICON_NAME
 
 # --------------------- initial pygame -----------------------------
 pygame.init()
@@ -10,6 +10,7 @@ pygame.display.set_caption(NAME_WINDOW)
 pygame.display.set_icon(pygame.image.load(ICON_NAME))
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 # -------------------- end initial pygame --------------------------
+
 
 # ---------------------- create global data --------------------------------
 running = True
@@ -21,6 +22,9 @@ running = True
 class Game:
     def __init__(self):
         self.board = Board()
+
+    def move(self):
+        self.board.move()
 
     def run(self) -> None:
         delay = 100
@@ -42,3 +46,6 @@ class Game:
             if delay > 0:
                 delay -= 1
                 continue
+
+            # Agent move
+            self.move()

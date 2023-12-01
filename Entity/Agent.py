@@ -1,18 +1,18 @@
-import pygame
-
+import utils
 from Entity.Entity import Entity
 from constants import CELL_SIZE, MARGIN, SPACING_CELL, AGENT_IMAGE
 from utils import Utils
 
 
 class Agent(Entity):
-    def __init__(self, row, col):
+    def __init__(self, row, col, N):
         super().__init__(row, col, AGENT_IMAGE[0])
-
-    def getRC(self):
-        return [self.row, self.col]
+        self.N = N
 
     def setRC(self, row, col):
+        if not utils.Utils.isValid(row, col, self.N):
+            return
+
         if row < self.row:
             self.image = Utils.load_image_alpha(AGENT_IMAGE[2])
         elif row > self.row:
