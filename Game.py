@@ -1,7 +1,8 @@
 import pygame
 
 from Entity.Board import Board
-from constants import NAME_WINDOW, FPS, WIDTH, HEIGHT, ICON_NAME
+from Entity.ListView import ListView
+from constants import NAME_WINDOW, FPS, WIDTH, HEIGHT, ICON_NAME, BLACK
 
 # --------------------- initial pygame -----------------------------
 pygame.init()
@@ -22,6 +23,7 @@ running = True
 class Game:
     def __init__(self):
         self.board = Board()
+        self.listView = ListView()
 
     def move(self):
         self.board.move()
@@ -31,7 +33,10 @@ class Game:
         global running
         while running:
             # re-draw window
+            screen.fill(BLACK)
             self.board.draw(screen)
+            self.listView.scroll_bottom()
+            self.listView.draw(screen)
             pygame.display.flip()
             clock.tick(FPS)
             # ----------------------------
@@ -41,6 +46,11 @@ class Game:
                     pygame.quit()
                     # TODO: show menu latest
                     return
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 4:
+                        self.listView.scroll_up()
+                    elif event.button == 5:
+                        self.listView.scroll_down()
 
             # delay game
             if delay > 0:

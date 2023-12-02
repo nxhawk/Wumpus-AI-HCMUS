@@ -17,6 +17,7 @@ RED: tuple = (255, 0, 0)
 PURPLE: tuple = (255, 0, 255)
 YELLOW: tuple = (255, 255, 0)
 ORANGE: tuple = (255, 165, 0)
+GREY: tuple = (200, 200, 200)
 # --- End Define Color
 
 # Board game default setting
