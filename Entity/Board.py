@@ -98,6 +98,11 @@ class Board(object):
         if self.Arrow is not None:
             self.Arrow.draw(screen)
 
+        # draw score
+        my_font = pygame.font.SysFont('Comic Sans MS', 30)
+        text_surface = my_font.render('Score: {Score}'.format(Score=self.score), False, RED)
+        screen.blit(text_surface, (WIDTH - WIDTH//4, 0))
+
         remove_entity(self.Walls, self.Agent.getRC())
 
     def isDead(self):
@@ -130,14 +135,13 @@ class Board(object):
 
     def kill_wumpus(self):
         pos_to = self.Agent.getNextPos()
-        pos_from = self.Agent.getRC()
         # remove_entity(self.Walls, pos_to)
         remove_entity(self.Wumpus, pos_to)
         stench_around = self.get_neighborhood_wumpus(pos_to[0], pos_to[1])
 
         for stench in stench_around:
             pos = stench.getRC()
-            if len(self.get_neighborhood_stench(pos[0], pos[1])) == 1:
+            if len(self.get_neighborhood_stench(pos[0], pos[1])) <= 1:
                 remove_entity(self.Stenches, pos)
 
     def move(self):
@@ -160,11 +164,17 @@ class Board(object):
         # Move forward action
         elif action == Action.MOVE_FORWARD:
             self.Agent.move_forward()
+            self.score += POINT["MOVE_FORWARD"]
+
+        # Climb out the cave
+        elif action == Action.CLIMB_OUT_OF_THE_CAVE:
+            self.score += POINT["CLIMB"]
 
         # grab gold action
         elif action == Action.GRAB_GOLD:
             pos = self.Agent.getRC()
             remove_entity(self.Golds, pos)
+            self.score += POINT["PICK_GOLD"]
 
         # infer pit or wumpus
         elif action == Action.DETECT_PIT or action == Action.DETECT_WUMPUS:
@@ -176,9 +186,14 @@ class Board(object):
             pos_to = self.Agent.getNextPos()
             pos_from = self.Agent.getRC()
             self.Arrow = Arrow(pos_from, pos_to)
+            self.score += POINT["SHOOT"]
 
         # kill wumpus
         elif action == Action.KILL_WUMPUS:
             self.kill_wumpus()
+
+        # fall into pit
+        elif action == Action.FALL_INTO_PIT:
+            self.score += POINT["DYING"]
 
         return True
