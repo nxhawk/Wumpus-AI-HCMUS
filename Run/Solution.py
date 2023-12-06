@@ -166,7 +166,7 @@ class Solution:
             return False
 
         # if current step of agent have pit => game is finish, agent dies
-        if self.agent_cell.exist_Entity(4):
+        if self.agent_cell.exist_Entity(1):
             self.add_action(Action.FALL_INTO_PIT)
             return False
 
@@ -203,7 +203,7 @@ class Solution:
         if not self.agent_cell.check():
             # if this cell have breeze or stench
             valid_adj_cell: Cell
-
+            temp_adj_cell_list = []
             # delete cell have pit in next step
             for valid_adj_cell in valid_adj_cell_list:
                 if valid_adj_cell.is_explored() and valid_adj_cell.exist_Entity(1):
@@ -284,8 +284,8 @@ class Solution:
             # if this cell have Breeze => try infer Pit
             if self.agent_cell.exist_Entity(3):
                 for valid_adj_cell in valid_adj_cell_list:
-                    print("Infer: ", end='')
-                    print(valid_adj_cell.map_pos)
+                    # print("Infer: ", end='')
+                    # print(valid_adj_cell.map_pos)
                     self.append_event_to_output_file('Infer: ' + str(valid_adj_cell.map_pos))
                     self.turn_to(valid_adj_cell)
 

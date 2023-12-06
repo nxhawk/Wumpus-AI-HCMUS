@@ -2,7 +2,7 @@ from Run.KnowledgeBase import KnowledgeBase
 from Run.CellType import CellType
 import utils
 
-DDX = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+DDX = [(0, 1), (0, -1), (-1, 0), (1, 0)]
 
 
 class Cell:

@@ -4,7 +4,7 @@
 
 NAME_WINDOW: str = "Wumpus Game"  # Window game name
 ICON_NAME: str = r"./Assets/Images/icon.png"  # Icon window pygame
-FPS: int = 100  # FPS game
+FPS: int = 10  # FPS game
 WIDTH: int = 1100  # Width main screen
 HEIGHT: int = 680  # Height main screen
 
@@ -37,6 +37,7 @@ PIT_IMAGE = r"Assets/Images/hole.png"
 WUMPUS_IMAGE = r"Assets/Images/wumpus.png"
 BREEZE_IMAGE = r"Assets/Images/breeze.png"
 STENCH_IMAGE = r"Assets/Images/smell.png"
+WALL_IMAGE = r"Assets/Images/wall.png"
 
 ARROW_IMAGE = [r"Assets/Images/arrow_right.png", r"Assets/Images/arrow_left.png", r"Assets/Images/arrow_up.png",
                r"Assets/Images/arrow_down.png"]

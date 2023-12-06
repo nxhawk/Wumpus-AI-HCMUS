@@ -29,7 +29,7 @@ class Game:
         self.board.move()
 
     def run(self) -> None:
-        delay = 100
+        delay = 10
         global running
         while running:
             # re-draw window

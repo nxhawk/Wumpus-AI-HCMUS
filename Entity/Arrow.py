@@ -3,12 +3,13 @@ from constants import ARROW_IMAGE
 
 
 class Arrow(Entity):
-    def __init__(self, row, col, direction='LEFT'):
+    def __init__(self, pos_from, pos_to):
         image = ARROW_IMAGE[1]
-        if direction == 'RIGHT':
-            image = ARROW_IMAGE[0]
-        elif direction == 'UP':
-            image = ARROW_IMAGE[2]
-        elif direction == 'DOWN':
+        if pos_from[0] < pos_to[0]:
             image = ARROW_IMAGE[3]
-        super().__init__(row, col, image)
+        elif pos_from[0] > pos_to[0]:
+            image = ARROW_IMAGE[2]
+        elif pos_from[1] < pos_to[1]:
+            image = ARROW_IMAGE[0]
+
+        super().__init__(pos_to[0], pos_to[1], image)

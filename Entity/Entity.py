@@ -18,3 +18,6 @@ class Entity(object):
 
     def getRC(self):
         return [self.row, self.col]
+
+    def change_image(self, image):
+        self.image = Utils.load_image_alpha(image)
