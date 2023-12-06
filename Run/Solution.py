@@ -1,22 +1,15 @@
 from Run.Action import Action
+from Run.Base import Base
 from Run.Cell import Cell
 from Run.CellType import CellType
 from Run.KnowledgeBase import KnowledgeBase
 
 
-class Solution:
+class Solution(Base):
     def __init__(self, input_filename, output_filename):
-        self.output_filename = output_filename
-        self.map_size = 10
-        self.cell_matrix = None
-
+        super().__init__(output_filename)
         self.cave_cell: Cell = Cell(-1, -1, 10, CellType.EMPTY.value)
-        self.agent_cell: Cell = Cell(-1, -1, 10, CellType.EMPTY.value)  # initial cell
         self.KB = KnowledgeBase()
-
-        self.path = []
-        self.action_list = []
-        self.score = 0
 
         self.read_map(input_filename)
 
@@ -35,53 +28,6 @@ class Solution:
                     self.agent_cell.update_parent(self.cave_cell)
 
         file.close()
-
-    def append_event_to_output_file(self, text: str):
-        file = open(self.output_filename, 'a')
-        file.write(text + '\n')
-        file.close()
-
-    def add_action(self, action):
-        self.action_list.append(action)
-        self.append_event_to_output_file(action.name)
-
-        if action == Action.MOVE_FORWARD:
-            self.score -= 10
-            self.append_event_to_output_file('Score: ' + str(self.score))
-        elif action == Action.GRAB_GOLD:
-            self.score += 100
-            self.append_event_to_output_file('Score: ' + str(self.score))
-        elif action == Action.SHOOT:
-            self.score -= 100
-            self.append_event_to_output_file('Score: ' + str(self.score))
-        elif action == Action.BE_EATEN_BY_WUMPUS:
-            self.score -= 10000
-            self.append_event_to_output_file('Score: ' + str(self.score))
-        elif action == Action.FALL_INTO_PIT:
-            self.score -= 10000
-            self.append_event_to_output_file('Score: ' + str(self.score))
-        elif action == Action.CLIMB_OUT_OF_THE_CAVE:
-            self.score += 10
-            self.append_event_to_output_file('Score: ' + str(self.score))
-
-    def turn_to(self, new_cell):
-        if new_cell.map_pos[0] == self.agent_cell.map_pos[0]:
-            if new_cell.map_pos[1] - self.agent_cell.map_pos[1] == 1:
-                self.add_action(Action.TURN_UP)
-            else:
-                self.add_action(Action.TURN_DOWN)
-        elif new_cell.map_pos[1] == self.agent_cell.map_pos[1]:
-            if new_cell.map_pos[0] - self.agent_cell.map_pos[0] == 1:
-                self.add_action(Action.TURN_RIGHT)
-            else:
-                self.add_action(Action.TURN_LEFT)
-        else:
-            raise TypeError('Error: ' + self.turn_to.__name__)
-
-    def move_to(self, new_cell):
-        self.turn_to(new_cell)
-        self.add_action(Action.MOVE_FORWARD)
-        self.agent_cell = new_cell
 
     def add_KB(self, cell: Cell):
         adj_cell_list: list[Cell] = cell.get_adj_cell(self.cell_matrix)
@@ -102,7 +48,7 @@ class Solution:
 
         # Check the above constraint.
         if sign_pit == sign_wumpus == '+':
-            raise TypeError('Logic Error: Pit and Wumpus can not appear at the same cell.')
+            raise TypeError('Pit and Wumpus can not appear at the same cell.')
 
         # PL: Breeze?
         sign = '-'
@@ -281,7 +227,7 @@ class Solution:
                         self.agent_cell.update_child([adj_cell])
                         break
 
-            # if this cell have Breeze => try infer Pit
+            # if this cell have Breeze => try to infer Pit
             if self.agent_cell.exist_Entity(3):
                 for valid_adj_cell in valid_adj_cell_list:
                     # print("Infer: ", end='')
