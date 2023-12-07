@@ -5,11 +5,13 @@ from Entity.Agent import Agent
 from Entity.Arrow import Arrow
 from Entity.Breeze import Breeze
 from Entity.Cell import Cell
+from Entity.Door import Door
 from Entity.Gold import Gold
 from Entity.ListView import ListView
 from Entity.Message import Message
 from Entity.Pit import Pit
 from Entity.Stench import Stench
+from Entity.ViewImageAction import ImageAction
 from Entity.Wall import Wall
 from Entity.Wumpus import Wumpus
 from Run.Action import Action
@@ -32,6 +34,7 @@ def remove_entity(entity, pos):
 class Board(object):
     def __init__(self, filename="map1.txt"):
         self.score = 0
+        self.end_action = None
         self.spacing = SPACING_CELL
         self.cell_dimension = CELL_SIZE
         self.matrix_dimension = (NUMBER_CELL, NUMBER_CELL)
@@ -43,6 +46,8 @@ class Board(object):
         self.map = None
         self.message = None
         self.listview = ListView()
+        self.image_action = None
+        self.change_animation = True
         # other position entity
         self.Walls = []
         self.Cells = []
@@ -50,6 +55,7 @@ class Board(object):
         self.Pits = []
         self.Wumpus = []
         self.Agent = None
+        self.Door = None
         self.Breezes = []
         self.Stenches = []
         self.Arrow = None
@@ -73,6 +79,7 @@ class Board(object):
                     self.Golds.append(Gold(row, col))
                 if AGENT in cell and self.Agent is None:
                     self.Agent = Agent(row, col, N)
+                    self.Door = Door(row, col)
                 if PIT in cell:
                     self.Pits.append(Pit(row, col))
                 if WUMPUS in cell:
@@ -98,6 +105,7 @@ class Board(object):
         for wall in self.Walls:
             wall.draw(screen)
 
+        self.Door.draw(screen)
         self.Agent.draw(screen)
         if self.Arrow is not None:
             self.Arrow.draw(screen)
@@ -107,8 +115,13 @@ class Board(object):
         text_surface = my_font.render('Score: {Score}'.format(Score=self.score), False, RED)
         screen.blit(text_surface, (WIDTH - WIDTH // 4 - 5, 0))
 
+        if not self.change_animation and self.end_action is not None:
+            self.handle_end_game(screen)
+
         if self.message is not None:
             self.message.draw(screen)
+        if self.image_action is not None and self.end_action is None:
+            self.image_action.draw(screen)
 
         self.listview.draw(screen)
 
@@ -120,11 +133,14 @@ class Board(object):
     def scroll_down(self):
         self.listview.scroll_down()
 
-    def isDead(self):
-        for wum in self.Wumpus:
-            if wum.getRC() == self.Agent.getRC():
-                return True
-        return False
+    def handle_end_game(self, screen):
+        my_font = pygame.font.Font(FONT_1, 100)
+        if self.end_action == Action.FALL_INTO_PIT:
+            text_surface = my_font.render('DEFEAT', False, RED)
+            screen.blit(text_surface, (WIDTH - 400, HEIGHT - 200))
+        elif self.end_action == Action.CLIMB_OUT_OF_THE_CAVE:
+            text_surface = my_font.render('VICTORY', False, YELLOW)
+            screen.blit(text_surface, (WIDTH - 430, HEIGHT - 200))
 
     def get_neighborhood_wumpus(self, row, col):
         result = []
@@ -165,9 +181,11 @@ class Board(object):
 
         if len(self.action_list) == 0:
             self.listview.show_scrollbar()
+            self.change_animation = False
             return False
 
         action = self.action_list.pop(0)
+        self.end_action = action
 
         if action == Action.TURN_RIGHT:
             self.Agent.turn_to(Action.TURN_RIGHT)
@@ -216,4 +234,5 @@ class Board(object):
         self.message = Message(action.name)
         self.listview.add_item(action.name)
         self.listview.hide_scrollbar()
+        self.image_action = ImageAction(action)
         return True

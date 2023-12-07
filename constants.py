@@ -4,7 +4,7 @@
 
 NAME_WINDOW: str = "Wumpus Game"  # Window game name
 ICON_NAME: str = r"./Assets/Images/icon.png"  # Icon window pygame
-FPS: int = 10  # FPS game
+FPS: int = 8  # FPS game
 WIDTH: int = 1100  # Width main screen
 HEIGHT: int = 680  # Height main screen
 
@@ -35,15 +35,22 @@ CELL_GOLD_IMAGE = r"Assets/Images/floor_gold.png"
 GOLD_IMAGE = r"Assets/Images/gold.png"
 PIT_IMAGE = r"Assets/Images/hole.png"
 WUMPUS_IMAGE = r"Assets/Images/wumpus.png"
+WUMPUS_IMAGE_KILL = r"Assets/Images/wumpus_kill.png"
 BREEZE_IMAGE = r"Assets/Images/breeze.png"
 STENCH_IMAGE = r"Assets/Images/smell.png"
 WALL_IMAGE = r"Assets/Images/wall.png"
+VICTORY_IMAGE = r"Assets/Images/victory.png"
+DOOR_IMAGE = r"Assets/Images/door.png"
 
 ARROW_IMAGE = [r"Assets/Images/arrow_right.png", r"Assets/Images/arrow_left.png", r"Assets/Images/arrow_up.png",
                r"Assets/Images/arrow_down.png"]
 AGENT_IMAGE = [r"Assets/Images/player_facing_to_right.png", r"Assets/Images/player_facing_to_left.png",
                r"Assets/Images/player_facing_to_up.png", r"Assets/Images/player_facing_to_down.png"]
 # --- End Image
+
+# Font
+FONT_1 = r"Assets/Fonts/MPLUSRounded1c-Bold.ttf"
+# --- End Font
 
 # Entity
 PIT = 'P'

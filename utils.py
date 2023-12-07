@@ -8,16 +8,16 @@ class Utils:
         pass
 
     @staticmethod
-    def load_image_alpha(path: str, rotate: int = 0):
+    def load_image_alpha(path: str, rotate: int = 0, size: int = CELL_SIZE):
         image = pygame.image.load(path).convert_alpha()
-        image = pygame.transform.scale(image, (CELL_SIZE, CELL_SIZE))
+        image = pygame.transform.scale(image, (size, size))
         image = pygame.transform.rotate(image, rotate)
         return image
 
     @staticmethod
-    def load_image(path: str, rotate: int = 0):
+    def load_image(path: str, rotate: int = 0, size: int = CELL_SIZE):
         image = pygame.image.load(path).convert()
-        image = pygame.transform.scale(image, (CELL_SIZE, CELL_SIZE))
+        image = pygame.transform.scale(image, (size, size))
         image = pygame.transform.rotate(image, rotate)
         return image
 
