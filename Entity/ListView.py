@@ -5,23 +5,25 @@ from constants import GREY, WHITE, RED, WIDTH
 
 class ListView:
     def __init__(self):
-        self.font_size = 18
+        self.font_size = 22
         self.font = pygame.font.Font(None, self.font_size)
         self.width = 200
         self.height = 300
         self.color = WHITE
-        self.marginBottom = self.font_size//2+2
+        self.marginBottom = self.font_size//2+10
         self.padding = 0
         self.left = WIDTH - 200
         self.top = 100
+        self.show_scroll = False
 
         self.scroll_position = 0
         self.scroll_speed = 5
-        self.scrollbar_width = 16
-        self.scrollbar_rect = pygame.Rect(self.left, self.top, self.scrollbar_width, self.height)
+        self.scrollbar_width = 14
+        self.scrollbar_margin = 120
+        self.scrollbar_rect = pygame.Rect(self.left+self.scrollbar_margin, self.top, self.scrollbar_width, self.height)
 
         # content of list view
-        self.items = [f"Item {i}" for i in range(1, 50)]
+        self.items = []
 
     def draw_list_view(self, screen: pygame):
         for i, item in enumerate(self.items):
@@ -37,7 +39,7 @@ class ListView:
 
         handle_position = ((self.scroll_position / (len(self.items) * self.marginBottom - self.height)) *
                            (self.height - self.scrollbar_width)) + self.top
-        handle_rect = pygame.Rect(self.left, handle_position, self.scrollbar_width,
+        handle_rect = pygame.Rect(self.left+self.scrollbar_margin, handle_position, self.scrollbar_width,
                                   self.scrollbar_width)
         pygame.draw.rect(screen, RED, handle_rect)
 
@@ -52,8 +54,16 @@ class ListView:
                                    + self.scroll_speed)
 
     def add_item(self, content):
-        self.items.append(content)
+        self.items.append(content.replace("_", " "))
+        self.scroll_bottom()
+
+    def show_scrollbar(self):
+        self.show_scroll = True
+
+    def hide_scrollbar(self):
+        self.show_scroll = False
 
     def draw(self, screen):
         self.draw_list_view(screen)
-        # self.draw_scrollbar(screen)
+        if self.show_scroll:
+            self.draw_scrollbar(screen)

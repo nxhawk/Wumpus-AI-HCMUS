@@ -6,6 +6,8 @@ from Entity.Arrow import Arrow
 from Entity.Breeze import Breeze
 from Entity.Cell import Cell
 from Entity.Gold import Gold
+from Entity.ListView import ListView
+from Entity.Message import Message
 from Entity.Pit import Pit
 from Entity.Stench import Stench
 from Entity.Wall import Wall
@@ -39,6 +41,8 @@ class Board(object):
                 (self.cell_dimension * self.matrix_dimension[0]) + (self.spacing * (self.matrix_dimension[0] + 1))
                 + MARGIN['TOP'])
         self.map = None
+        self.message = None
+        self.listview = ListView()
         # other position entity
         self.Walls = []
         self.Cells = []
@@ -101,9 +105,20 @@ class Board(object):
         # draw score
         my_font = pygame.font.SysFont('Comic Sans MS', 30)
         text_surface = my_font.render('Score: {Score}'.format(Score=self.score), False, RED)
-        screen.blit(text_surface, (WIDTH - WIDTH//4, 0))
+        screen.blit(text_surface, (WIDTH - WIDTH // 4 - 5, 0))
+
+        if self.message is not None:
+            self.message.draw(screen)
+
+        self.listview.draw(screen)
 
         remove_entity(self.Walls, self.Agent.getRC())
+
+    def scroll_up(self):
+        self.listview.scroll_up()
+
+    def scroll_down(self):
+        self.listview.scroll_down()
 
     def isDead(self):
         for wum in self.Wumpus:
@@ -144,11 +159,14 @@ class Board(object):
             if len(self.get_neighborhood_stench(pos[0], pos[1])) <= 1:
                 remove_entity(self.Stenches, pos)
 
-    def move(self):
+    def move(self, screen):
         self.Arrow = None
+        self.message = None
 
         if len(self.action_list) == 0:
+            self.listview.show_scrollbar()
             return False
+
         action = self.action_list.pop(0)
         print(action)
 
@@ -196,4 +214,7 @@ class Board(object):
         elif action == Action.FALL_INTO_PIT:
             self.score += POINT["DYING"]
 
+        self.message = Message(action.name)
+        self.listview.add_item(action.name)
+        self.listview.hide_scrollbar()
         return True

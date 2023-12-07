@@ -105,7 +105,7 @@ class Solution(Base):
 
         self.append_event_to_output_file(str(self.KB.KB))
 
-    def backtracking_search(self):
+    def top_condition(self):
         # if current step of agent have wumpus => game is finish, agent dies
         if self.agent_cell.exist_Entity(2):
             self.add_action(Action.BE_EATEN_BY_WUMPUS)
@@ -134,6 +134,9 @@ class Solution(Base):
         if not self.agent_cell.is_explored():
             self.agent_cell.explore()
             self.add_KB(self.agent_cell)
+
+    def backtracking_search(self):
+        self.top_condition()
 
         # Initialize valid_adj_cell_list.
         valid_adj_cell_list = self.agent_cell.get_adj_cell(self.cell_matrix)
