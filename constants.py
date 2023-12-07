@@ -39,7 +39,6 @@ WUMPUS_IMAGE_KILL = r"Assets/Images/wumpus_kill.png"
 BREEZE_IMAGE = r"Assets/Images/breeze.png"
 STENCH_IMAGE = r"Assets/Images/smell.png"
 WALL_IMAGE = r"Assets/Images/wall.png"
-VICTORY_IMAGE = r"Assets/Images/victory.png"
 DOOR_IMAGE = r"Assets/Images/door.png"
 
 ARROW_IMAGE = [r"Assets/Images/arrow_right.png", r"Assets/Images/arrow_left.png", r"Assets/Images/arrow_up.png",
