@@ -43,6 +43,7 @@ class Board(object):
         self.height = (
                 (self.cell_dimension * self.matrix_dimension[0]) + (self.spacing * (self.matrix_dimension[0] + 1))
                 + MARGIN['TOP'])
+
         self.map = None
         self.message = None
         self.listview = ListView()
@@ -63,6 +64,10 @@ class Board(object):
                                     './Assets/Output/result1.txt').solve()
 
         self.createBoardGame(filename)
+
+        MESSAGE_WINDOW['TOP'] = MARGIN['TOP'] + self.spacing
+        MESSAGE_WINDOW['BOTTOM'] = HEIGHT - MARGIN['TOP'] - self.spacing
+        MESSAGE_WINDOW['LEFT'] = self.width + MARGIN['LEFT'] - self.spacing
 
     def createBoardGame(self, filename):
         N, _map = utils.Utils.readMapInFile(filename, self.cell_dimension, self.spacing)
@@ -90,6 +95,9 @@ class Board(object):
                     self.Stenches.append(Stench(row, col))
 
     def draw(self, screen: pygame):
+        pygame.draw.rect(screen, PURPLE, pygame.Rect(self.width + MARGIN['LEFT'] - self.spacing, MARGIN['TOP'] +
+                                                     self.spacing, WIDTH - self.width,
+                                                     HEIGHT - MARGIN['TOP'] * 2 - self.spacing * 2))
         for cell in self.Cells:
             cell.draw(screen)
         for stench in self.Stenches:
@@ -113,7 +121,7 @@ class Board(object):
         # draw score
         my_font = pygame.font.SysFont('Comic Sans MS', 30)
         text_surface = my_font.render('Score: {Score}'.format(Score=self.score), False, RED)
-        screen.blit(text_surface, (WIDTH - 200 - text_surface.get_width()//2, 0))
+        screen.blit(text_surface, (WIDTH - 200 - text_surface.get_width() // 2, 0))
 
         if not self.change_animation and self.end_action is not None:
             self.handle_end_game(screen)
@@ -137,10 +145,10 @@ class Board(object):
         my_font = pygame.font.Font(FONT_1, 100)
         if self.end_action == Action.FALL_INTO_PIT:
             text_surface = my_font.render('DEFEAT', False, RED)
-            screen.blit(text_surface, (WIDTH - 400, HEIGHT - 220))
+            screen.blit(text_surface, (WIDTH - 400, HEIGHT - 270))
         elif self.end_action == Action.CLIMB_OUT_OF_THE_CAVE:
             text_surface = my_font.render('VICTORY', False, YELLOW)
-            screen.blit(text_surface, (WIDTH - 430, HEIGHT - 220))
+            screen.blit(text_surface, (WIDTH - 430, HEIGHT - 270))
 
     def get_neighborhood_wumpus(self, row, col):
         result = []

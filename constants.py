@@ -11,10 +11,10 @@ HEIGHT: int = 680  # Height main screen
 # DEFINE COLOR
 BLACK: tuple = (0, 0, 0)
 WHITE: tuple = (255, 255, 255)
-BLUE: tuple = (0, 0, 255)
+BLUE: tuple = (30, 144, 255)
 GREEN: tuple = (0, 255, 0)
 RED: tuple = (255, 0, 0)
-PURPLE: tuple = (255, 0, 255)
+PURPLE: tuple = (106, 90, 205)
 YELLOW: tuple = (255, 255, 0)
 ORANGE: tuple = (255, 165, 0)
 GREY: tuple = (200, 200, 200)
@@ -26,6 +26,11 @@ SPACING_CELL: int = 1
 CELL_SIZE: int = 60
 MARGIN: object = {
     "TOP": 0,
+    "LEFT": 0
+}
+MESSAGE_WINDOW: object = {
+    "TOP": 0,
+    "BOTTOM": 0,
     "LEFT": 0
 }
 

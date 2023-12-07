@@ -1,7 +1,8 @@
 import pygame
 
 from Entity.Board import Board
-from constants import NAME_WINDOW, FPS, WIDTH, HEIGHT, ICON_NAME, BLACK
+from Menu.Button import Button
+from constants import NAME_WINDOW, FPS, WIDTH, HEIGHT, ICON_NAME, BLACK, MESSAGE_WINDOW, MARGIN
 
 # --------------------- initial pygame -----------------------------
 pygame.init()
@@ -22,17 +23,37 @@ running = True
 class Game:
     def __init__(self):
         self.board = Board()
+        self.status = "RUN_GAME"
+        self.delay = 10
+
+        self.btnBack = Button(MESSAGE_WINDOW['LEFT'] + 20, MESSAGE_WINDOW['BOTTOM'] - 100, 200, 60, screen,
+                              40, 'BACK', self.back_click)
+        self.btnRestart = Button(WIDTH - 220, MESSAGE_WINDOW['BOTTOM'] - 100, 200, 60, screen,
+                                 40, 'RESTART', self.restart_click)
 
     def move(self):
-        self.board.move()
+        if not self.board.move():
+            self.status = "END_GAME"
+
+    def back_click(self):
+        pass
+
+    def restart_click(self):
+        MARGIN["LEFT"] = 0
+        self.status = "RUN_GAME"
+        self.delay = 10
+        self.board = Board()
 
     def run(self) -> None:
-        delay = 10
         global running
         while running:
             # re-draw window
             screen.fill(BLACK)
             self.board.draw(screen)
+            if self.status == 'END_GAME':
+                self.btnBack.process()
+                self.btnRestart.process()
+
             pygame.display.flip()
             clock.tick(FPS)
             # ----------------------------
@@ -49,8 +70,8 @@ class Game:
                         self.board.scroll_down()
 
             # delay game
-            if delay > 0:
-                delay -= 1
+            if self.delay > 0:
+                self.delay -= 1
                 continue
 
             # Agent move

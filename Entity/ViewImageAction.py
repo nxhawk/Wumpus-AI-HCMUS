@@ -1,6 +1,5 @@
 from Run.Action import Action
-from constants import AGENT_IMAGE, WIDTH, HEIGHT, GOLD_IMAGE, BREEZE_IMAGE, STENCH_IMAGE, ARROW_IMAGE, VICTORY_IMAGE, \
-    WUMPUS_IMAGE_KILL
+from constants import AGENT_IMAGE, WIDTH, HEIGHT, GOLD_IMAGE, BREEZE_IMAGE, STENCH_IMAGE, ARROW_IMAGE, WUMPUS_IMAGE_KILL
 from utils import Utils
 
 
@@ -16,7 +15,7 @@ def action_to_image(action):
 
     # Climb out the cave
     elif action == Action.CLIMB_OUT_OF_THE_CAVE:
-        return VICTORY_IMAGE
+        pass
 
     # grab gold action
     elif action == Action.GRAB_GOLD:
