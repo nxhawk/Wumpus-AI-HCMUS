@@ -1,11 +1,11 @@
 import pygame
 
-from constants import WIDTH, GREEN
+from constants import WIDTH, GREEN, FONT_2
 
 
 class Message(object):
     def __init__(self, message):
-        self.cs_font_1 = pygame.font.SysFont('Comic Sans MS', 30)
+        self.cs_font_1 = pygame.font.Font(FONT_2, 32)
         self.x = WIDTH - WIDTH//5
         self.y = 50
         self.message = message.replace("_", " ")

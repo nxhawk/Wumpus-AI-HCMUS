@@ -50,6 +50,7 @@ AGENT_IMAGE = [r"Assets/Images/player_facing_to_right.png", r"Assets/Images/play
 
 # Font
 FONT_1 = r"Assets/Fonts/MPLUSRounded1c-Bold.ttf"
+FONT_2 = r"Assets/Fonts/Roboto-Bold.ttf"
 # --- End Font
 
 # Entity

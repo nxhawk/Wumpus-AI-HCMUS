@@ -113,14 +113,14 @@ class Board(object):
         # draw score
         my_font = pygame.font.SysFont('Comic Sans MS', 30)
         text_surface = my_font.render('Score: {Score}'.format(Score=self.score), False, RED)
-        screen.blit(text_surface, (WIDTH - WIDTH // 4 - 5, 0))
+        screen.blit(text_surface, (WIDTH - 200 - text_surface.get_width()//2, 0))
 
         if not self.change_animation and self.end_action is not None:
             self.handle_end_game(screen)
 
         if self.message is not None:
             self.message.draw(screen)
-        if self.image_action is not None and self.end_action is None:
+        if self.image_action is not None and self.change_animation:
             self.image_action.draw(screen)
 
         self.listview.draw(screen)
@@ -137,10 +137,10 @@ class Board(object):
         my_font = pygame.font.Font(FONT_1, 100)
         if self.end_action == Action.FALL_INTO_PIT:
             text_surface = my_font.render('DEFEAT', False, RED)
-            screen.blit(text_surface, (WIDTH - 400, HEIGHT - 200))
+            screen.blit(text_surface, (WIDTH - 400, HEIGHT - 220))
         elif self.end_action == Action.CLIMB_OUT_OF_THE_CAVE:
             text_surface = my_font.render('VICTORY', False, YELLOW)
-            screen.blit(text_surface, (WIDTH - 430, HEIGHT - 200))
+            screen.blit(text_surface, (WIDTH - 430, HEIGHT - 220))
 
     def get_neighborhood_wumpus(self, row, col):
         result = []
