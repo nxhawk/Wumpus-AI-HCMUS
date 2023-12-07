@@ -24,7 +24,7 @@ class Game:
         self.board = Board()
 
     def move(self):
-        self.board.move(screen)
+        self.board.move()
 
     def run(self) -> None:
         delay = 10

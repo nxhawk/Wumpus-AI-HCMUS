@@ -159,7 +159,7 @@ class Board(object):
             if len(self.get_neighborhood_stench(pos[0], pos[1])) <= 1:
                 remove_entity(self.Stenches, pos)
 
-    def move(self, screen):
+    def move(self):
         self.Arrow = None
         self.message = None
 
@@ -168,7 +168,6 @@ class Board(object):
             return False
 
         action = self.action_list.pop(0)
-        print(action)
 
         if action == Action.TURN_RIGHT:
             self.Agent.turn_to(Action.TURN_RIGHT)
