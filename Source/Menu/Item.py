@@ -1,6 +1,5 @@
 import pygame
 
-import Entity.Agent
 import utils
 from constants import AGENT_IMAGE, WUMPUS_IMAGE, WUMPUS_IMAGE_KILL, PIT_IMAGE, GOLD_IMAGE, BREEZE_IMAGE, STENCH_IMAGE, \
     ARROW_IMAGE, WALL_IMAGE, CELL_IMAGE, CELL_GOLD_IMAGE

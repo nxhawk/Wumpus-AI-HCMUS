@@ -1,7 +1,6 @@
 """
     Side default value setting for game
 """
-from Run.Action import Action
 
 NAME_WINDOW: str = "Wumpus World"  # Window game name
 ICON_NAME: str = r"./Assets/Images/icon.png"  # Icon window pygame

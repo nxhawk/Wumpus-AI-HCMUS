@@ -7,7 +7,7 @@ from Menu.Button import Button
 from Menu.Button2 import Button2
 from Menu.Item import Item
 from constants import (NAME_WINDOW, FPS, WIDTH, HEIGHT, ICON_NAME, BLACK, MESSAGE_WINDOW, MARGIN, BG_IMAGE, FONT_3, RED,
-                       WHITE, FONT_1, NAME_ITEM, BLUE, YELLOW)
+                       WHITE, FONT_1, NAME_ITEM, YELLOW)
 
 # --------------------- initial pygame -----------------------------
 pygame.init()
