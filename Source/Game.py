@@ -103,7 +103,7 @@ class Game:
     def prev_click(self):
         self.current_item -= 1
         if self.current_item < 0:
-            self.current_item + len(NAME_ITEM)
+            self.current_item = self.current_item + len(NAME_ITEM)
 
     def introduce(self):
         my_font = pygame.font.Font(FONT_3, 120)
