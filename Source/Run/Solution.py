@@ -233,8 +233,6 @@ class Solution(Base):
             # if this cell have Breeze => try to infer Pit
             if self.agent_cell.exist_Entity(3):
                 for valid_adj_cell in valid_adj_cell_list:
-                    # print("Infer: ", end='')
-                    # print(valid_adj_cell.map_pos)
                     self.append_event_to_output_file('Infer: ' + str(valid_adj_cell.map_pos))
                     self.turn_to(valid_adj_cell)
 

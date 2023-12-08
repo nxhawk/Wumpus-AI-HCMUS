@@ -68,7 +68,8 @@ EMPTY = '-'
 # --- end Entity
 
 # LINK
-ROOT_INPUT = r"Assets/Input/"
+ROOT_INPUT = r"../Input/"
+ROOT_OUTPUT = r"../Output/"
 # -------
 
 # --- Default point --------

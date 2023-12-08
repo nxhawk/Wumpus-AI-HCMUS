@@ -32,7 +32,7 @@ def remove_entity(entity, pos):
 
 
 class Board(object):
-    def __init__(self, filename="map1.txt"):
+    def __init__(self, filename="map1.txt", outputfile="result1.txt"):
         self.score = 0
         self.end_action = None
         self.spacing = SPACING_CELL
@@ -60,8 +60,8 @@ class Board(object):
         self.Breezes = []
         self.Stenches = []
         self.Arrow = None
-        self.action_list = Solution('./Assets/Input/map1.txt',
-                                    './Assets/Output/result1.txt').solve()
+        self.action_list = Solution(f'{ROOT_INPUT}{filename}',
+                                    f'{ROOT_OUTPUT}{outputfile}').solve()
 
         self.createBoardGame(filename)
 
