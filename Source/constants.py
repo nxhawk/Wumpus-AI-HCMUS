@@ -1,6 +1,7 @@
 """
     Side default value setting for game
 """
+from Run.Action import Action
 
 NAME_WINDOW: str = "Wumpus World"  # Window game name
 ICON_NAME: str = r"./Assets/Images/icon.png"  # Icon window pygame
@@ -83,4 +84,9 @@ POINT = {
     "CLIMB": 10,
     "MOVE_FORWARD": -10
 }
+# -------------------------
+
+# --- Introduce Item ------
+NAME_ITEM = ['AGENT', 'WUMPUS', 'WUMPUS DEAD', 'PIT', 'GOLD', 'BREEZE', 'STENCH', 'ARROW', 'WALL', 'FLOOR',
+             'FLOOR HAVE GOLD']
 # -------------------------

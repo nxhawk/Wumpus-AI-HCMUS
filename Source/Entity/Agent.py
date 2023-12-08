@@ -6,8 +6,8 @@ from utils import Utils
 
 
 class Agent(Entity):
-    def __init__(self, row, col, N):
-        super().__init__(row, col, AGENT_IMAGE[0])
+    def __init__(self, row, col, N, size: int = CELL_SIZE):
+        super().__init__(row, col, AGENT_IMAGE[0], size)
         self.N = N
         self.direction = 'RIGHT'
 

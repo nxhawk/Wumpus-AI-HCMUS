@@ -44,7 +44,7 @@ def action_to_image(action):
 
 
 class ImageAction(object):
-    def __init__(self, action):
+    def __init__(self, action, top=None, left=None):
         self.size = 100
         self.change_action = True
 
@@ -52,6 +52,10 @@ class ImageAction(object):
         self.rect = self.image.get_rect()
         self.rect.top = HEIGHT - self.size - 150
         self.rect.left = WIDTH - WIDTH // 5 - 50
+
+        if top is not None and left is not None:
+            self.rect.top = top
+            self.rect.left = left
 
     def draw(self, screen):
         if self.change_action:
