@@ -54,6 +54,8 @@ class ListView:
                                    + self.scroll_speed)
 
     def add_item(self, content):
+        if content == "KILL_ALL_WUMPUS_AND_GRAB_ALL_FOOD":
+            content = "DONE ALL ACTION"
         self.items.append(content.replace("_", " "))
         self.scroll_bottom()
 

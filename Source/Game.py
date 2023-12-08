@@ -60,6 +60,9 @@ class Game:
         self.clicked = False
         self.current_item = 0
 
+        bg = pygame.image.load(BG_IMAGE)
+        self.bg = pygame.transform.scale(bg, (WIDTH, HEIGHT))
+
         # Screen Home
         self.btnStart = Button2((WIDTH - 350) // 2, (HEIGHT - 100) // 2 - HEIGHT // 6, 350, 100, screen,
                                 60, 'START', self.start_click, WHITE)
@@ -219,8 +222,6 @@ class Game:
             self.move()
 
     def menu(self):
-        bg = pygame.image.load(BG_IMAGE)
-        bg = pygame.transform.scale(bg, (WIDTH, HEIGHT))
         my_font = pygame.font.Font(FONT_3, 120)
         text_surface = my_font.render('WUMPUS WORLD', False, RED)
         while self.running_menu:
@@ -234,7 +235,7 @@ class Game:
                     self.clicked = True
 
             # re-draw window
-            screen.blit(bg, (0, 0))
+            screen.blit(self.bg, (0, 0))
             if self.status != "START_MENU":
                 self.btnBackHome.process()
             if self.status == "START_MENU":
