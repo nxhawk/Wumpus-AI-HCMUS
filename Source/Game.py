@@ -81,8 +81,11 @@ class Game:
                                60, 'MAP 4', self.choose_map_4, WHITE)
         self.btnMap5 = Button2((WIDTH - 300) // 2, (HEIGHT - 100) // 2 + HEIGHT // 5 * 2, 300, 100, screen,
                                60, 'MAP 5', self.choose_map_5, WHITE)
-
         # Screen End Game
+        self.btnBack = None
+        self.btnRestart = None
+
+    def initBtnEndGame(self):
         self.btnBack = Button(MESSAGE_WINDOW['LEFT'] + 20, MESSAGE_WINDOW['BOTTOM'] - 100, 200, 60, screen,
                               40, 'BACK', self.back_click)
         self.btnRestart = Button(WIDTH - 220, MESSAGE_WINDOW['BOTTOM'] - 100, 200, 60, screen,
@@ -118,7 +121,10 @@ class Game:
             self.status = "END_GAME"
 
     def back_click(self):
-        pass
+        self.status = "CHOOSE_MAP"
+        self.running_menu = True
+        self.running = False
+        self.menu()
 
     def back_home_click(self):
         if self.clicked:
@@ -141,7 +147,7 @@ class Game:
         MARGIN["LEFT"] = 0
         self.status = "RUN_GAME"
         self.delay = 10
-        self.board = Board()
+        self.board = Board(self.map_name, self.result_name)
 
     def run(self) -> None:
         while self.running:
@@ -216,6 +222,7 @@ class Game:
                 self.running = True
                 MARGIN['LEFT'] = 0
                 self.board = Board(self.map_name, self.result_name)
+                self.initBtnEndGame()
                 self.run()
 
             pygame.display.flip()
