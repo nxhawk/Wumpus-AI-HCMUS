@@ -98,12 +98,14 @@ class Game:
                                100, '<', self.prev_click, WHITE)
 
     def next_click(self):
-        self.current_item = (self.current_item + 1) % len(NAME_ITEM)
+        if self.clicked:
+            self.current_item = (self.current_item + 1) % len(NAME_ITEM)
 
     def prev_click(self):
-        self.current_item -= 1
-        if self.current_item < 0:
-            self.current_item = self.current_item + len(NAME_ITEM)
+        if self.clicked:
+            self.current_item -= 1
+            if self.current_item < 0:
+                self.current_item = self.current_item + len(NAME_ITEM)
 
     def introduce(self):
         my_font = pygame.font.Font(FONT_3, 120)
@@ -129,29 +131,34 @@ class Game:
                                  40, 'RESTART', self.restart_click)
 
     def choose_map_1(self):
-        self.map_name = "map1.txt"
-        self.result_name = "result1.txt"
-        self.status = "RUN_GAME"
+        if self.clicked:
+            self.map_name = "map1.txt"
+            self.result_name = "result1.txt"
+            self.status = "RUN_GAME"
 
     def choose_map_2(self):
-        self.map_name = "map2.txt"
-        self.result_name = "result2.txt"
-        self.status = "RUN_GAME"
+        if self.clicked:
+            self.map_name = "map2.txt"
+            self.result_name = "result2.txt"
+            self.status = "RUN_GAME"
 
     def choose_map_3(self):
-        self.map_name = "map3.txt"
-        self.result_name = "result3.txt"
-        self.status = "RUN_GAME"
+        if self.clicked:
+            self.map_name = "map3.txt"
+            self.result_name = "result3.txt"
+            self.status = "RUN_GAME"
 
     def choose_map_4(self):
-        self.map_name = "map4.txt"
-        self.result_name = "result4.txt"
-        self.status = "RUN_GAME"
+        if self.clicked:
+            self.map_name = "map4.txt"
+            self.result_name = "result4.txt"
+            self.status = "RUN_GAME"
 
     def choose_map_5(self):
-        self.map_name = "map5.txt"
-        self.result_name = "result5.txt"
-        self.status = "RUN_GAME"
+        if self.clicked:
+            self.map_name = "map5.txt"
+            self.result_name = "result5.txt"
+            self.status = "RUN_GAME"
 
     def move(self):
         if not self.board.move():
@@ -188,6 +195,7 @@ class Game:
         self.board = Board(self.map_name, self.result_name)
 
     def run(self) -> None:
+        self.clicked = False
         while self.running:
             # re-draw window
             screen.fill(BLACK)
