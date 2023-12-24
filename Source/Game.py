@@ -60,6 +60,7 @@ class Game:
         self.result_name = None
         self.clicked = False
         self.current_item = 0
+        self.pause = False
 
         bg = pygame.image.load(BG_IMAGE)
         self.bg = pygame.transform.scale(bg, (WIDTH, HEIGHT))
@@ -95,6 +96,8 @@ class Game:
         # Screen End Game
         self.btnBack = None
         self.btnRestart = None
+        self.btnPause = None
+        self.btnContinue = None
 
         # Introduce screen
         self.btnNext = Button2(WIDTH - 200, (HEIGHT - 100) // 2, 100, 100, screen,
@@ -134,6 +137,18 @@ class Game:
                               40, 'BACK', self.back_click)
         self.btnRestart = Button(WIDTH - 220, MESSAGE_WINDOW['BOTTOM'] - 100, 200, 60, screen,
                                  40, 'RESTART', self.restart_click)
+        self.btnPause = Button2(MESSAGE_WINDOW['LEFT'] + (WIDTH - MESSAGE_WINDOW['LEFT'] - 200) // 2,
+                                MESSAGE_WINDOW['BOTTOM'] - 100, 200, 70, screen,
+                                40, 'PAUSE', self.pause_click, WHITE)
+        self.btnContinue = Button2(MESSAGE_WINDOW['LEFT'] + (WIDTH - MESSAGE_WINDOW['LEFT'] - 220) // 2,
+                                   MESSAGE_WINDOW['BOTTOM'] - 100, 220, 70, screen,
+                                   40, 'CONTINUE', self.continue_click, WHITE)
+
+    def pause_click(self):
+        self.pause = True
+
+    def continue_click(self):
+        self.pause = False
 
     def choose_map_1(self):
         if self.clicked:
@@ -208,6 +223,7 @@ class Game:
 
     def run(self) -> None:
         self.clicked = False
+        self.delay = 10
         while self.running:
             # re-draw window
             screen.fill(BLACK)
@@ -218,6 +234,10 @@ class Game:
                 pygame.display.flip()
                 clock.tick(300)
             else:
+                if self.delay <= 0 and not self.pause:
+                    self.btnPause.process()
+                elif self.pause:
+                    self.btnContinue.process()
                 pygame.display.flip()
                 clock.tick(FPS)
             # ----------------------------
@@ -241,7 +261,8 @@ class Game:
                 continue
 
             # Agent move
-            self.move()
+            if not self.pause:
+                self.move()
 
     def menu(self):
         my_font = pygame.font.Font(FONT_3, 120)
@@ -280,6 +301,7 @@ class Game:
             elif self.status == "RUN_GAME":
                 self.running_menu = False
                 self.running = True
+                self.pause = False
                 MARGIN['LEFT'] = 0
                 self.board = Board(self.map_name, self.result_name)
                 self.initBtnEndGame()

@@ -147,8 +147,8 @@ class Board(object):
             text_surface = my_font.render('DEFEAT', False, RED)
             screen.blit(text_surface, (WIDTH - 400, HEIGHT - 270))
         elif self.end_action == Action.CLIMB_OUT_OF_THE_CAVE:
-            text_surface = my_font.render('VICTORY', False, YELLOW)
-            screen.blit(text_surface, (WIDTH - 430, HEIGHT - 270))
+            text_surface = my_font.render('DONE !', False, YELLOW)
+            screen.blit(text_surface, (WIDTH - 390, HEIGHT - 270))
 
     def get_neighborhood_wumpus(self, row, col):
         result = []
