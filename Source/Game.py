@@ -215,9 +215,11 @@ class Game:
             if self.status == 'END_GAME':
                 self.btnBack.process()
                 self.btnRestart.process()
-
-            pygame.display.flip()
-            clock.tick(FPS)
+                pygame.display.flip()
+                clock.tick(300)
+            else:
+                pygame.display.flip()
+                clock.tick(FPS)
             # ----------------------------
 
             for event in pygame.event.get():
@@ -284,5 +286,5 @@ class Game:
                 self.run()
 
             pygame.display.flip()
-            clock.tick(FPS)
+            clock.tick(300)
             # ----------------------------

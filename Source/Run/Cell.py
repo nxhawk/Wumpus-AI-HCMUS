@@ -95,26 +95,23 @@ class Cell:
 
                 # TODO: Will check again here
                 # delete clause have stench
-                literal = stench_cell.get_literal(CellType.STENCH, '+')
-                kb.del_clause([literal])
+                kb.del_clause([stench_cell.get_literal(CellType.STENCH, '+')])
                 # add clause dont have stench
-                literal = stench_cell.get_literal(CellType.STENCH, '-')
-                kb.add_clause([literal])
+                kb.add_clause([stench_cell.get_literal(CellType.STENCH, '-')])
                 # TODO: End
 
                 adj_cell_list = stench_cell.get_adj_cell(cell_matrix)
                 # BASE KNOWLEDGE: S <=> Wa v Wb v Wc v Wd
                 # (S => Wa v Wb v Wc v Wd) <=> (-S v Wa v Wb v Wc v Wd) (De Morgan)
-                clause = [stench_cell.get_literal(CellType.STENCH, '-')]
                 cell_adj: Cell
-                for cell_adj in adj_cell_list:
-                    clause.append(cell_adj.get_literal(CellType.WUMPUS, '+'))
+                clause = [cell_adj.get_literal(CellType.WUMPUS, '+') for cell_adj in adj_cell_list]
+                clause.append(stench_cell.get_literal(CellType.STENCH, '-'))
                 kb.del_clause(clause)
 
                 # (Wa v Wb v Wc v Wd => S) <=> ((-Wa ^ -Wb ^ -Wc ^ -Wd) v S)
                 for cell_adj in adj_cell_list:
-                    clause = [stench_cell.get_literal(CellType.STENCH, '+'), cell_adj.get_literal(CellType.WUMPUS, '-')]
-                    kb.del_clause(clause)
+                    kb.del_clause([stench_cell.get_literal(CellType.STENCH, '+'), cell_adj.get_literal(CellType.WUMPUS,
+                                                                                                       '-')])
 
     def get_literal(self, obj: CellType, sign='+'):  # sign='-': not operator
         if obj == CellType.PIT:

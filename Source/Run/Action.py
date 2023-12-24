@@ -25,5 +25,3 @@ class Action(Enum):
     INFER_NOT_PIT = 21
     INFER_WUMPUS = 22
     INFER_NOT_WUMPUS = 23
-    DETECT_SAFE = 24
-    INFER_SAFE = 25

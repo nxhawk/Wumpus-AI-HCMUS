@@ -6,32 +6,12 @@ from Run.KnowledgeBase import KnowledgeBase
 
 
 class Solution(Base):
-    def __init__(self, input_filename, output_filename):
-        super().__init__(output_filename)
-        self.cave_cell: Cell = Cell(-1, -1, 10, CellType.EMPTY.value)
+    def __init__(self, input_file, output_file):
+        super().__init__(output_file)
         self.KB = KnowledgeBase()
+        self.read_map(input_file)
 
-        self.read_map(input_filename)
-
-    def read_map(self, filename):
-        file = open(filename, 'r')
-
-        self.map_size = int(file.readline())
-        raw_map = [line.split('.') for line in file.read().splitlines()]
-
-        self.cell_matrix = [[None for _ in range(self.map_size)] for _ in range(self.map_size)]
-        for row in range(self.map_size):
-            for col in range(self.map_size):
-                self.cell_matrix[row][col] = Cell(row, col, self.map_size, raw_map[row][col])
-                if CellType.AGENT.value in raw_map[row][col]:
-                    self.agent_cell = self.cell_matrix[row][col]
-                    self.agent_cell.update_parent(self.cave_cell)
-
-        file.close()
-
-    def add_KB(self, cell: Cell):
-        adj_cell_list: list[Cell] = cell.get_adj_cell(self.cell_matrix)
-
+    def KB_logic_1(self, cell: Cell):
         # BASE KNOWLEDGE: (P ^ -W) v (-P ^ W)
         # P ^ -W
         sign_pit = '-'
@@ -50,58 +30,66 @@ class Solution(Base):
         if sign_pit == sign_wumpus == '+':
             raise TypeError('Pit and Wumpus can not appear at the same cell.')
 
+    def KB_logic_2(self, cell: Cell):
         # PL: Breeze?
-        sign = '-'
         if cell.exist_Entity(3):
-            sign = '+'
-        self.KB.add_clause([cell.get_literal(CellType.BREEZE, sign)])
+            self.KB.add_clause([cell.get_literal(CellType.BREEZE, '+')])
+        else:
+            self.KB.add_clause([cell.get_literal(CellType.BREEZE, '-')])
 
         # PL: Stench?
-        sign = '-'
         if cell.exist_Entity(4):
-            sign = '+'
-        self.KB.add_clause([cell.get_literal(CellType.STENCH, sign)])
+            self.KB.add_clause([cell.get_literal(CellType.STENCH, '+')])
+        else:
+            self.KB.add_clause([cell.get_literal(CellType.STENCH, '-')])
 
+    def KB_logic_3(self, cell: Cell, neighbor_cells: list[Cell]):
         # If this cell have Breeze
         # BASE KNOWLEDGE: B <=> Pa v Pb v Pc v Pd
         if cell.exist_Entity(3):
             # (B => Pa v Pb v Pc v Pd) <=> (-B v Pa v Pb v Pc v Pd)
-            clause = [cell.get_literal(CellType.BREEZE, '-')]
-            for adj_cell in adj_cell_list:
-                clause.append(adj_cell.get_literal(CellType.PIT, '+'))
+            clause = [neighbor.get_literal(CellType.PIT, '+') for neighbor in neighbor_cells]
+            clause.append(cell.get_literal(CellType.BREEZE, '-'))
             self.KB.add_clause(clause)
 
             # (Pa v Pb v Pc v Pd => B) <=> ((-Pa ^ -Pb ^ -Pc ^ -Pd) v B)
-            for adj_cell in adj_cell_list:
-                clause = [cell.get_literal(CellType.BREEZE, '+'), adj_cell.get_literal(CellType.PIT, '-')]
-                self.KB.add_clause(clause)
+            for neighbor in neighbor_cells:
+                self.KB.add_clause([cell.get_literal(CellType.BREEZE, '+'), neighbor.get_literal(CellType.PIT, '-')])
 
         else:
             # This cell no have Breeze
             # BASE KNOWLEDGE: -Pa ^ -Pb ^ -Pc ^ -Pd
-            for adj_cell in adj_cell_list:
-                clause = [adj_cell.get_literal(CellType.PIT, '-')]
-                self.KB.add_clause(clause)
+            for neighbor in neighbor_cells:
+                self.KB.add_clause([neighbor.get_literal(CellType.PIT, '-')])
 
+    def KB_logic_4(self, cell: Cell, neighbor_cells: list[Cell]):
         # If this cell have Stench
         # BASE KNOWLEDGE: S <=> Wa v Wb v Wc v Wd
         if cell.exist_Entity(4):
             # (S => Wa v Wb v Wc v Wd) <=> (-S v Wa v Wb v Wc v Wd)
             clause = [cell.get_literal(CellType.STENCH, '-')]
-            for adj_cell in adj_cell_list:
-                clause.append(adj_cell.get_literal(CellType.WUMPUS, '+'))
+            for neighbor in neighbor_cells:
+                clause.append(neighbor.get_literal(CellType.WUMPUS, '+'))
             self.KB.add_clause(clause)
 
             # (Wa v Wb v Wc v Wd => S) <=> ((-Wa ^ -Wb ^ -Wc ^ -Wd) v S)
-            for adj_cell in adj_cell_list:
-                clause = [cell.get_literal(CellType.STENCH, '+'), adj_cell.get_literal(CellType.WUMPUS, '-')]
+            for neighbor in neighbor_cells:
+                clause = [cell.get_literal(CellType.STENCH, '+'), neighbor.get_literal(CellType.WUMPUS, '-')]
                 self.KB.add_clause(clause)
         else:
             # This cell no have Stench
             # BASE KNOWLEDGE: -Wa ^ -Wb ^ -Wc ^ -Wd
-            for adj_cell in adj_cell_list:
-                clause = [adj_cell.get_literal(CellType.WUMPUS, '-')]
+            for neighbor in neighbor_cells:
+                clause = [neighbor.get_literal(CellType.WUMPUS, '-')]
                 self.KB.add_clause(clause)
+
+    def add_KB(self, cell: Cell):
+        neighbor_cells: list[Cell] = cell.get_adj_cell(self.cell_matrix)
+
+        self.KB_logic_1(cell)
+        self.KB_logic_2(cell)
+        self.KB_logic_3(cell, neighbor_cells)
+        self.KB_logic_4(cell, neighbor_cells)
 
         self.append_event_to_output_file(str(self.KB.KB))
 
