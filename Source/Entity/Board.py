@@ -180,7 +180,7 @@ class Board(object):
 
         for stench in stench_around:
             pos = stench.getRC()
-            if len(self.get_neighborhood_stench(pos[0], pos[1])) <= 1:
+            if len(self.get_neighborhood_stench(pos[0], pos[1])) <= 0:
                 remove_entity(self.Stenches, pos)
 
     def move(self):

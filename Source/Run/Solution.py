@@ -218,7 +218,6 @@ class Solution(Base):
                     self.append_event_to_output_file('Try: ' + str(adj_cell.map_pos))
                     self.turn_to(adj_cell)
                     self.add_action(Action.SHOOT)
-
                     if adj_cell.exist_Entity(2):
                         # this cell have wumpus
                         self.add_action(Action.KILL_WUMPUS)

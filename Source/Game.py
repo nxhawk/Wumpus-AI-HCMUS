@@ -6,8 +6,9 @@ from Entity.Board import Board
 from Menu.Button import Button
 from Menu.Button2 import Button2
 from Menu.Item import Item
+from Run.RandMap import random_Map
 from constants import (NAME_WINDOW, FPS, WIDTH, HEIGHT, ICON_NAME, BLACK, MESSAGE_WINDOW, MARGIN, BG_IMAGE, FONT_3, RED,
-                       WHITE, FONT_1, NAME_ITEM, YELLOW)
+                       WHITE, FONT_1, NAME_ITEM, YELLOW, NUMBER_CELL)
 
 # --------------------- initial pygame -----------------------------
 pygame.init()
@@ -87,12 +88,16 @@ class Game:
                                60, 'MAP 4', self.choose_map_4, WHITE)
         self.btnMap5 = Button2((WIDTH - 300) // 2, (HEIGHT - 100) // 2 + HEIGHT // 5 * 2, 300, 100, screen,
                                60, 'MAP 5', self.choose_map_5, WHITE)
+        # Random map
+        self.btnMapRand = Button2(WIDTH - 350, (HEIGHT - 100) // 2 - HEIGHT // 5 * 1, 300, 100, screen,
+                                  60, 'RANDOM', self.choose_rand_map, WHITE)
+
         # Screen End Game
         self.btnBack = None
         self.btnRestart = None
 
         # Introduce screen
-        self.btnNext = Button2(WIDTH-200, (HEIGHT - 100) // 2, 100, 100, screen,
+        self.btnNext = Button2(WIDTH - 200, (HEIGHT - 100) // 2, 100, 100, screen,
                                100, '>', self.next_click, WHITE)
         self.btnPrev = Button2(100, (HEIGHT - 100) // 2, 100, 100, screen,
                                100, '<', self.prev_click, WHITE)
@@ -121,7 +126,7 @@ class Game:
         screen.blit(text_item, ((WIDTH - text_item.get_width()) // 2, (HEIGHT - text_item.get_height()) - 130))
 
         # show image info this item
-        item = Item(WIDTH//2, HEIGHT//2 - 20, NAME_ITEM[self.current_item])
+        item = Item(WIDTH // 2, HEIGHT // 2 - 20, NAME_ITEM[self.current_item])
         item.draw(screen)
 
     def initBtnEndGame(self):
@@ -158,6 +163,13 @@ class Game:
         if self.clicked:
             self.map_name = "map5.txt"
             self.result_name = "result5.txt"
+            self.status = "RUN_GAME"
+
+    def choose_rand_map(self):
+        if self.clicked:
+            self.map_name = "randMap.txt"
+            random_Map(NUMBER_CELL, self.map_name)
+            self.result_name = "resultRandMap.txt"
             self.status = "RUN_GAME"
 
     def move(self):
@@ -258,6 +270,7 @@ class Game:
                 self.btnMap3.process()
                 self.btnMap4.process()
                 self.btnMap5.process()
+                self.btnMapRand.process()
             elif self.status == "INTRODUCE_MENU":
                 self.introduce()
             elif self.status == "ABOUT_US_MENU":
