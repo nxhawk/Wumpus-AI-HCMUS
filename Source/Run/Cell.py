@@ -113,7 +113,8 @@ class Cell:
                     kb.del_clause([stench_cell.get_literal(CellType.STENCH, '+'), cell_adj.get_literal(CellType.WUMPUS,
                                                                                                        '-')])
 
-    def get_literal(self, obj: CellType, sign='+'):  # sign='-': not operator
+    def get_literal(self, obj: CellType, sign='+'):
+        # sign='-': not operator
         if obj == CellType.PIT:
             i = 1
         elif obj == CellType.WUMPUS:

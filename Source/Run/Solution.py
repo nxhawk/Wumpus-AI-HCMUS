@@ -67,21 +67,18 @@ class Solution(Base):
         # BASE KNOWLEDGE: S <=> Wa v Wb v Wc v Wd
         if cell.exist_Entity(4):
             # (S => Wa v Wb v Wc v Wd) <=> (-S v Wa v Wb v Wc v Wd)
-            clause = [cell.get_literal(CellType.STENCH, '-')]
-            for neighbor in neighbor_cells:
-                clause.append(neighbor.get_literal(CellType.WUMPUS, '+'))
+            clause = [neighbor.get_literal(CellType.WUMPUS, '+') for neighbor in neighbor_cells]
+            clause.append(cell.get_literal(CellType.STENCH, '-'))
             self.KB.add_clause(clause)
 
             # (Wa v Wb v Wc v Wd => S) <=> ((-Wa ^ -Wb ^ -Wc ^ -Wd) v S)
             for neighbor in neighbor_cells:
-                clause = [cell.get_literal(CellType.STENCH, '+'), neighbor.get_literal(CellType.WUMPUS, '-')]
-                self.KB.add_clause(clause)
+                self.KB.add_clause([cell.get_literal(CellType.STENCH, '+'), neighbor.get_literal(CellType.WUMPUS, '-')])
         else:
             # This cell no have Stench
             # BASE KNOWLEDGE: -Wa ^ -Wb ^ -Wc ^ -Wd
             for neighbor in neighbor_cells:
-                clause = [neighbor.get_literal(CellType.WUMPUS, '-')]
-                self.KB.add_clause(clause)
+                self.KB.add_clause([neighbor.get_literal(CellType.WUMPUS, '-')])
 
     def add_KB(self, cell: Cell):
         neighbor_cells: list[Cell] = cell.get_adj_cell(self.cell_matrix)

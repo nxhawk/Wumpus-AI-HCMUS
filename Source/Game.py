@@ -146,39 +146,48 @@ class Game:
 
     def pause_click(self):
         self.pause = True
+        if self.board is not None:
+            self.board.listview.show_scrollbar()
 
     def continue_click(self):
         self.pause = False
+        if self.board is not None:
+            self.board.listview.hide_scrollbar()
 
     def choose_map_1(self):
         if self.clicked:
             self.map_name = "map1.txt"
             self.result_name = "result1.txt"
             self.status = "RUN_GAME"
+            pygame.display.set_caption(NAME_WINDOW + ' - Map 1')
 
     def choose_map_2(self):
         if self.clicked:
             self.map_name = "map2.txt"
             self.result_name = "result2.txt"
             self.status = "RUN_GAME"
+            pygame.display.set_caption(NAME_WINDOW + ' - Map 2')
 
     def choose_map_3(self):
         if self.clicked:
             self.map_name = "map3.txt"
             self.result_name = "result3.txt"
             self.status = "RUN_GAME"
+            pygame.display.set_caption(NAME_WINDOW + ' - Map 3')
 
     def choose_map_4(self):
         if self.clicked:
             self.map_name = "map4.txt"
             self.result_name = "result4.txt"
             self.status = "RUN_GAME"
+            pygame.display.set_caption(NAME_WINDOW + ' - Map 4')
 
     def choose_map_5(self):
         if self.clicked:
             self.map_name = "map5.txt"
             self.result_name = "result5.txt"
             self.status = "RUN_GAME"
+            pygame.display.set_caption(NAME_WINDOW + ' - Map 5')
 
     def choose_rand_map(self):
         if self.clicked:
@@ -186,6 +195,7 @@ class Game:
             random_Map(NUMBER_CELL, self.map_name)
             self.result_name = "resultRandMap.txt"
             self.status = "RUN_GAME"
+            pygame.display.set_caption(NAME_WINDOW + ' - Random map')
 
     def move(self):
         if not self.board.move():
@@ -265,6 +275,7 @@ class Game:
                 self.move()
 
     def menu(self):
+        pygame.display.set_caption(NAME_WINDOW)
         my_font = pygame.font.Font(FONT_3, 120)
         text_surface = my_font.render('WUMPUS WORLD', False, RED)
         while self.running_menu:

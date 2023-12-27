@@ -1,5 +1,4 @@
 from pysat.solvers import Glucose3
-import copy
 
 
 def standardize_clause(clause):
@@ -26,4 +25,5 @@ class KnowledgeBase:
             g.add_clause(clause)
         for clause in not_alpha:
             g.add_clause(clause)
+
         return not g.solve()
