@@ -145,14 +145,18 @@ class Game:
                                    40, 'CONTINUE', self.continue_click, WHITE)
 
     def pause_click(self):
-        self.pause = True
-        if self.board is not None:
-            self.board.listview.show_scrollbar()
+        if self.clicked:
+            self.pause = True
+            self.clicked = False
+            if self.board is not None:
+                self.board.listview.show_scrollbar()
 
     def continue_click(self):
-        self.pause = False
-        if self.board is not None:
-            self.board.listview.hide_scrollbar()
+        if self.clicked:
+            self.pause = False
+            self.clicked = False
+            if self.board is not None:
+                self.board.listview.hide_scrollbar()
 
     def choose_map_1(self):
         if self.clicked:
@@ -236,8 +240,24 @@ class Game:
         self.delay = 10
         while self.running:
             # re-draw window
+            self.clicked = False
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.running = False
+                    self.running_menu = True
+                    self.status = "START_MENU"
+                    self.menu()
+                    # TODO: show menu latest
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    self.clicked = True
+                    if event.button == 4:
+                        self.board.scroll_up()
+                    elif event.button == 5:
+                        self.board.scroll_down()
+
             screen.fill(BLACK)
             self.board.draw(screen)
+
             if self.status == 'END_GAME':
                 self.btnBack.process()
                 self.btnRestart.process()
@@ -252,19 +272,8 @@ class Game:
                 clock.tick(FPS)
             # ----------------------------
 
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.running = False
-                    self.running_menu = True
-                    self.status = "START_MENU"
-                    self.menu()
-                    # TODO: show menu latest
-                elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == 4:
-                        self.board.scroll_up()
-                    elif event.button == 5:
-                        self.board.scroll_down()
-
+            if self.board.delay:
+                pygame.time.delay(500)
             # delay game
             if self.delay > 0:
                 self.delay -= 1

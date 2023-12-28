@@ -33,6 +33,7 @@ def remove_entity(entity, pos):
 
 class Board(object):
     def __init__(self, filename="map1.txt", outputfile="result1.txt"):
+        self.delay = False
         self.score = 0
         self.end_action = None
         self.spacing = SPACING_CELL
@@ -184,6 +185,7 @@ class Board(object):
                 remove_entity(self.Stenches, pos)
 
     def move(self):
+        self.delay = False
         self.Arrow = None
         self.message = None
 
@@ -218,6 +220,7 @@ class Board(object):
             pos = self.Agent.getRC()
             remove_entity(self.Golds, pos)
             self.score += POINT["PICK_GOLD"]
+            self.delay = True
 
         # infer pit or wumpus
         elif action == Action.DETECT_PIT or action == Action.DETECT_WUMPUS:
@@ -234,6 +237,7 @@ class Board(object):
         # kill wumpus
         elif action == Action.KILL_WUMPUS:
             self.kill_wumpus()
+            self.delay = True
 
         # fall into pit
         elif action == Action.FALL_INTO_PIT:
@@ -243,4 +247,5 @@ class Board(object):
         self.listview.add_item(action.name)
         self.listview.hide_scrollbar()
         self.image_action = ImageAction(action)
+
         return True

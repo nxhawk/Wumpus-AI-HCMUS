@@ -47,7 +47,7 @@ class ImageAction(object):
     def __init__(self, action, top=None, left=None):
         self.size = 100
         self.change_action = True
-
+        self.action = action
         self.image = Utils.load_image_alpha(action_to_image(action), 0, self.size)
         self.rect = self.image.get_rect()
         self.rect.top = HEIGHT - self.size - 150
